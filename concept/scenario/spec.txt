@@ -1,0 +1,5 @@
+1.0
+using Laravel 5.2 for Backend
+using frozennode for admin side
+using instagram's images for images
+using angularJS for Frontend

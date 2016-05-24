@@ -1,0 +1,5 @@
+1.0
+show images for end user
+control image visibility on admin
+
+
