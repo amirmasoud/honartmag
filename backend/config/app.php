@@ -156,6 +156,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * Custom Service Providers...
+         */
+        App\Providers\ImageServiceProvider::class,
+        App\Providers\InstagramServiceProvider::class,
+
     ],
 
     /*
