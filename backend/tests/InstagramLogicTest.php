@@ -66,6 +66,13 @@ class InstagramLogicTest extends TestCase
         InstagramProfile::where('profile_id', '=', 1)->delete();
     }
 
+    public function testLastFetchedImageId()
+    {
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
+
     /**
      * Test empty profile.
      * 
@@ -91,5 +98,15 @@ class InstagramLogicTest extends TestCase
         $this->markTestIncomplete(
           'This test has not been implemented yet.'
         );
+    }
+
+    /**
+     * clean up and rollback everything to its previous situation
+     * 
+     * @return void
+     */
+    public function tearDown()
+    {
+        InstagramProfile::where('profile_id', '=', 1)->delete();
     }
 }
