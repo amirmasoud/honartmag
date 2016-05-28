@@ -162,6 +162,7 @@ return [
         App\Providers\ImageServiceProvider::class,
         App\Providers\InstagramServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Frozennode\Administrator\AdministratorServiceProvider::class,
     ],
 
     /*

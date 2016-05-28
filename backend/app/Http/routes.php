@@ -14,6 +14,5 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('/images', 'Api\ImagesController@all');
 	Route::get('/images/{id}', 'Api\ImagesController@singular');
 });
-Route::auth();
 Route::get('/home', 'HomeController@index');
-
+Route::auth();
