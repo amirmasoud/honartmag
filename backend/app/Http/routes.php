@@ -10,12 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-// Authentication routes...
-Route::get('login', 'Auth\AuthController@getLogin');
-Route::post('login', 'Auth\AuthController@postLogin');
-Route::get('logout', 'Auth\AuthController@getLogout');
-
 Route::group(['prefix' => 'api'], function() {
 	Route::get('/images', 'Api\ImagesController@all');
 	Route::get('/images/{id}', 'Api\ImagesController@singular');
 });
+Route::auth();
+Route::get('/home', 'HomeController@index');
+

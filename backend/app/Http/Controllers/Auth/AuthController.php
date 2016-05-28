@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new authentication controller instance.
@@ -38,6 +38,24 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+    }
+
+    /**
+     * prevent users from registring
+     * @return void
+     */
+    public function showRegistrationForm()
+    {
+        return view('auth.disabled');
+    }
+
+    /**
+     * prevent users from registring
+     * @return void
+     */
+    public function postRegister()
+    {
+        return 'not allowed';
     }
 
     /**
