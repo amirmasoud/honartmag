@@ -19,14 +19,11 @@ class InstagramLogicTest extends TestCase
      * Fatal error: Call to a member function make() on null
      * solution: https://laracasts.com/discuss/channels/general-discussion/call-to-a-member-function-make-on-null
      */
-    public function __construct()
+    protected function setUp()
     {
         // Overriding the constructor so need to reinstantiate
         parent::createApplication();
-    }
-
-    protected function setUp()
-    {
+        
         $this->mock = $this->getMockForTrait('App\Helpers\Logics\InstagramLogic');
 
         // rollback instagram profile with id of 1 and its images
