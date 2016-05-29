@@ -5,7 +5,8 @@ angular
 	.module('app')
 	.config(config);
 
-function config($routeProvider, $authProvider) {
+config.$inject = ['$routeProvider'];
+function config($routeProvider) {
 	$routeProvider
 		.when('/', {
 			templateUrl: 'partials/index.html',

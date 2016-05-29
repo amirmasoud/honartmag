@@ -7,6 +7,7 @@ angular
 	.module('app')
 	.config(config);
 
+config.$inject = ['$locationProvider'];
 function config($locationProvider) {
 	if(window.history && window.history.pushState){
 		$locationProvider.html5Mode({
@@ -31,6 +32,7 @@ angular
 	.module('app')
 	.filter('unsafe', unsafe);
 
+unsafe.$inject = ['$sce'];
 function unsafe($sce) {
 	return $sce.trustAsHtml;
 }

@@ -66,7 +66,7 @@ gulp.task('useref', function() {
 gulp.task('images', function() {
   return gulp.src('app/assets/img/**/*')
   .pipe(image())
-  .pipe(gulp.dest('dist/img'))
+  .pipe(gulp.dest('dist/assets/img'))
 })
 
 // Copying fonts 
@@ -88,7 +88,7 @@ gulp.task('templates', ['uib'], function() {
 
 // Cleaning 
 gulp.task('clean:dist', function() {
-  return del.sync(['dist/**/*', '!dist/images', '!dist/images/**/*']);
+  return del.sync(['dist/**/*', '!dist/assets/img', '!dist/assets/img/**/*']);
 })
 
 /**
