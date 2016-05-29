@@ -1,0 +1,16 @@
+<div class="row portfolio" infinite-scroll="loadMore()" infinite-scroll-disabled="finished">
+    <div class="col-md-3 col-sm-6 portfolio-item" ng-repeat="image in images track by $index">
+        <span ng-click="openModal(image.id)">
+            <img class="img-responsive" ng-src="{{ image.thumb }}" alt="">
+        </span>
+        <div class="loading-modal" ng-show="loadingModal">
+            <span class="fa fa-circle-o-notch fa-spin"></span>
+        </div>
+    </div>
+</div>
+<div class="margin-bottom-25 row">
+    <button class="btn btn-default center-block" 
+            ng-click="loadMore()" 
+            ng-disabled="finished" 
+            ng-bind-html="loadMoreBtn | unsafe"></button>
+</div>

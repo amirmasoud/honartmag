@@ -1,0 +1,25 @@
+{
+  "name": "Frontend",
+  "authors": [
+    "AmirMasoud Sheidayi <amirmasood33@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.3",
+    "ngInfiniteScroll": "^1.2.2",
+    "font-awesome": "^4.6.3",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
+  }
+}
