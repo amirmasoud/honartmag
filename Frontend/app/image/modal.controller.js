@@ -3,7 +3,6 @@ angular
 	.controller('ModalController', ModalController);
 
 ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular'];
-
 function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular) {
 	$scope.singular = singular;
 	$scope.loadingImageNext = false;

@@ -3,7 +3,6 @@ angular
 	.controller('ImageController', ImageController);
 
 ImageController.$inject = ['$scope', '$http', 'ImageService', '$uibModal'];
-
 function ImageController($scope, $http, ImageService, $uibModal) {
 	var vm = this;
     $scope.images = [];
@@ -17,7 +16,7 @@ function ImageController($scope, $http, ImageService, $uibModal) {
     function getImages() {
 		if (busy) return;
 			busy = true;
-    	$scope.loadMoreBtn = '<span class="load-more-spin fa fa-circle-o-notch fa-spin"></span> در حال آوردن موارد بیشتر...';
+    	$scope.loadMoreBtn = "<span class='load-more-spin fa fa-circle-o-notch fa-spin'></span> در حال آوردن موارد بیشتر...";
 
     	return ImageService.get(page)
 	        .then(function(result) {

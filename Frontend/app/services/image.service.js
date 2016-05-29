@@ -2,6 +2,7 @@ angular
     .module('app')
     .factory('ImageService', image);
 
+image.$inject = ['$http', 'env'];
 function image($http, env) {
     return {
         get : function(page) {

@@ -1,8 +1,7 @@
 angular
 	.module('app', [
-		'ngRoute', 
+		'ngRoute',
 		'cfp.hotkeys',
 		'ui.bootstrap',
-		'angular-loading-bar',
-		'satellizer'
+		'angular-loading-bar'
 	]);

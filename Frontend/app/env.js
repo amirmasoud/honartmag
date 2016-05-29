@@ -1,6 +1,6 @@
 angular
 	.module('app')
 	.constant('env', {
-			url: 'http://localhost:8000/api/'
+			url: 'http://api.honartmag.ir/api/'
 		}
 	);
