@@ -10,11 +10,16 @@ body {
     font-family: 'B Yekan', tahoma, Arial;
     background-color: #f1f1f1;
     background-size: contain;
+    min-width: 492px;
 }
 
 .load-more-spin {
     margin-left: 10px;
     top: 4px !important;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
 }
 
 /**
@@ -330,3 +335,15 @@ span.disabled .next-image:focus, span.disabled .prev-image:focus {
     }
 }
 
+/**
+ * ad
+ */
+.ad-container {
+    max-width: 992px;
+}
+
+.ad {
+    background-color: #EAEAEA;
+    padding: 15px 0;
+    margin-top: -15px;
+}

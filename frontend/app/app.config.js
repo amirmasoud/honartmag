@@ -1,23 +1,4 @@
 /**
- * Config HTML5 mode
- * @param  {Provider} $locationProvider
- * @return {null}
- */
-angular
-	.module('app')
-	.config(config);
-
-config.$inject = ['$locationProvider'];
-function config($locationProvider) {
-	if(window.history && window.history.pushState){
-		$locationProvider.html5Mode({
-			enabled: true,
-			requireBase: false
-		});
-	}
-}
-
-/**
  * Loading bar config
  */
 angular
