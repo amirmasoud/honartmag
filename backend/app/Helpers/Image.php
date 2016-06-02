@@ -19,6 +19,10 @@ class Image implements ImageContract
                             ->whereStateOrderByCreatedTime($state)
                             ->simplePaginate(24);
 
+        foreach ($images as $image) {
+            $image['category'] = ImageModel::find($image->id)->category()->first(['name']);
+        }
+
         return $images;
     }
 

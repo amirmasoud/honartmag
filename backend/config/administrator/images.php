@@ -20,14 +20,6 @@ return array(
 		'caption_text' => array(
 			'title' => 'Caption Text',
 		),
-		'state' => array(
-			'title' => 'State'
-		),
-		'owner' => array(
-			'title' 		=> 'Owner',
-			'relationship' 	=> 'instagramProfile',
-			'select' 		=> "(:table).name",
-		),
 		'created_time' => array(
 			'title' 		=> 'Created time',
 		),
@@ -56,6 +48,11 @@ return array(
 			'type' 	=> 'text',
 			'limit' => 255,
 		),
+		'category' => array(
+		    'type' => 'relationship',
+		    'title' => 'Category',
+		    'name_field' => 'name',
+		)
 	),
 
 	/**

@@ -34,6 +34,7 @@ $factory->define(App\Image::class, function (Faker\Generator $faker) {
         'created_time' => $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
         'image_id' => $i++,
         'profile_id' => '1',
+        'category_id' => '1'
     ];
 });
 
@@ -44,6 +45,15 @@ $factory->define(App\InstagramProfile::class, function (Faker\Generator $faker) 
    return [
        'name' => 'test',
        'profile_id' => 1
+   ];
+});
+
+/**
+ * Modal factory for Category
+ */
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+   return [
+       'name' => 'test'
    ];
 });
 
