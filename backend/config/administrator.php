@@ -63,6 +63,7 @@ return array(
 	'menu' => array(
 				'images',
 				'instagramProfiles',
+				'categories',
 				'Users' => array('users', 'resetPassword'),
 				'Settings' => array('settings.updateImages'),
 			),
