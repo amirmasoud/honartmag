@@ -18,7 +18,7 @@ class Image implements ImageContract
         $images = ImageModel::select('id', 'thumb')
                             ->where('state', 'show')
                             ->orderBy('id', 'desc')
-                            ->simplePaginate(24);
+                            ->simplePaginate(config('honart.paginate'));
 
         foreach ($images as $image) {
             $image['category'] = ImageModel::find($image->id)->category()->first(['name']);

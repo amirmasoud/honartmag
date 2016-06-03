@@ -142,6 +142,9 @@ span.disabled .next-image:focus, span.disabled .prev-image:focus {
 /**
  * home page image background before loading
  */
+.portfolio-item img {
+    cursor: pointer;
+}
 .portfolio-item img, .modal-content img {
     background-color: #DDD;
 }
