@@ -1,8 +1,9 @@
 <div class="row portfolio" infinite-scroll="loadMore()" infinite-scroll-disabled="finished">
     <div class="col-md-3 col-sm-6 portfolio-item" ng-repeat="image in images track by $index">
-        <span ng-click="openModal(image.id)">
+        <div ng-click="openModal(image.id)" class="image-container">
             <img class="img-responsive" ng-src="{{ image.thumb }}" alt="">
-        </span>
+            <span class="category">{{ image.category.name }}</span>
+        </div>
         <div class="loading-modal" ng-show="loadingModal">
             <span class="fa fa-circle-o-notch fa-spin"></span>
         </div>

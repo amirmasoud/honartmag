@@ -146,6 +146,21 @@ span.disabled .next-image:focus, span.disabled .prev-image:focus {
     background-color: #DDD;
 }
 
+.image-container {
+    position: relative;
+    margin-bottom: -20px;
+}
+
+.image-container .category {
+    position: relative;
+    bottom: 30px;
+    color: #fff;
+    margin-right: 15px;
+    text-shadow: 1px 1px 1px #000;
+    border-right: 4px solid #fff;
+    padding: 0px 10px;
+}
+
 @media(max-width:767px) {
     .portfolio-item img {
         width: 290px;
