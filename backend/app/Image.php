@@ -53,7 +53,6 @@ class Image extends Model
      */
 	public function scopeNextId($query, $id, $state = 'show')
 	{
-		//
 		return $query->where('id', '>', $id)
 					 ->Where('state', '=', 'show')
 					 ->orderBy('id', 'asc')
