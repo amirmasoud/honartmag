@@ -16,7 +16,8 @@ class Image implements ImageContract
     public function all($state = 'show')
     {
         $images = ImageModel::select('id', 'thumb')
-                            ->whereStateOrderByCreatedTime($state)
+                            ->where('state', 'show')
+                            ->orderBy('id', 'desc')
                             ->simplePaginate(24);
 
         foreach ($images as $image) {
@@ -35,17 +36,15 @@ class Image implements ImageContract
      */
     public function singular($id, $state = 'show')
     {
-        $image = ImageModel::select('full', 'caption_text', 'created_time')
+        $image = ImageModel::select('id', 'full', 'caption_text', 'created_time')
                             ->where('id', '=', $id)
-                            ->whereStateOrderByCreatedTime($state)
+                            ->where('state', $state)
                             ->firstOrFail();
 
-        // Get next/prev id
-        $nextId = ImageModel::NextId($image->created_time, $state);
-        $prevId = ImageModel::prevId($image->created_time, $state);
+        $nextId = ImageModel::NextId($image->id);
+        $prevId = ImageModel::prevId($image->id);
         $image->next = empty( $nextId->id ) ? 0 : $nextId->id;
         $image->prev = empty( $prevId->id ) ? 0 : $prevId->id;
-
         return $image;
     }
 }

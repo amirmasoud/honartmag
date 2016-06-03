@@ -35,6 +35,19 @@ class Image extends Model
 
     /**
      * Get the image that owns the category.
+<<<<<<< HEAD
+     *
+     * @return  belongTo
+     */
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
+    /**
+     * Scope a query to get next image id.
+=======
+>>>>>>> dev
      *
      * @return  belongTo
      */
@@ -47,14 +60,16 @@ class Image extends Model
      * Scope a query to get next image id.
      *
      * @param  collection $query
-     * @param  datetime $createdTime
+     * @param  id  $id
      * @param  string  $state image state, show|hide|new, default show
      * @return \Illuminate\Database\Eloquent\Builder
      */
-	public function scopeNextId($query, $createdTime, $state)
+	public function scopeNextId($query, $id, $state = 'show')
 	{
-		return $query->whereRaw("created_time > STR_TO_DATE('" . $createdTime . "', '%Y-%m-%d %H:%i:%s')")
-					 ->WhereStateOrderByCreatedTime($state, 'asc')
+		//
+		return $query->where('id', '>', $id)
+					 ->Where('state', '=', 'show')
+					 ->orderBy('id', 'asc')
 					 ->first(['id']);
 	}
 
@@ -62,30 +77,16 @@ class Image extends Model
      * Scope a query to get prev image id.
      *
      * @param  collection $query
-     * @param  datetime $createdTime
+     * @param  id  $id
      * @param  string  $state image state, show|hide|new, default show
      * @return \Illuminate\Database\Eloquent\Builder
      */
-	public function scopePrevId($query, $createdTime, $state)
+	public function scopePrevId($query, $id, $state = 'show')
 	{
-		return $query->whereRaw("created_time < STR_TO_DATE('" . $createdTime . "', '%Y-%m-%d %H:%i:%s')")
-					 ->WhereStateOrderByCreatedTime($state)
+		return $query->where('id', '<', $id)
+					 ->Where('state', '=', 'show')
+					 ->orderBy('id', 'desc')
 					 ->first(['id']);
-	}
-
-    /**
-     * Scope a query to get by state and order.
-     * 
-     * @param  collection $query
-     * @param  string  $state image state, show|hide|new, default show
-     * @param  string $order
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-	public function scopeWhereStateOrderByCreatedTime($query, $state, $order = 'desc')
-	{
-		return $query->where('state', '=', $state)
-					 ->orderBy('created_time', $order)
-					 ->orderBy('created_at', $order);
 	}
 
 	public function getFullAttribute($value)
