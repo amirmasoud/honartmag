@@ -35,19 +35,6 @@ class Image extends Model
 
     /**
      * Get the image that owns the category.
-<<<<<<< HEAD
-     *
-     * @return  belongTo
-     */
-    public function category()
-    {
-        return $this->belongsTo('App\Category');
-    }
-
-    /**
-     * Scope a query to get next image id.
-=======
->>>>>>> dev
      *
      * @return  belongTo
      */
