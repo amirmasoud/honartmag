@@ -366,11 +366,13 @@ span.disabled .next-image:focus, span.disabled .prev-image:focus {
  * ad
  */
 .ad-container {
-    max-width: 992px;
+    max-width: 728px;
+    margin: 0 auto;
+    margin-top: 20px;
 }
 
 .ad {
     background-color: #EAEAEA;
-    padding: 15px 0;
+    padding: 5px 0;
     margin-top: -15px;
 }
