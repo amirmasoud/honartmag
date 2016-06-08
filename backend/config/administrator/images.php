@@ -23,6 +23,9 @@ return array(
 		'created_time' => array(
 			'title' 		=> 'Created time',
 		),
+		'id' =>  array(
+			'title' => 'ID'
+		),
 	),
 
 	/**
