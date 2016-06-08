@@ -14,6 +14,11 @@ function image($http, env) {
             return $http.get(env.url + 'images/' + id, {
                 params: { id: id }
             });
+        },
+        category : function(name) {
+            return $http.get(env.url + 'categories/' + name, {
+                params: { name: name }
+            });
         }
     }
 }

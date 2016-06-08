@@ -12,11 +12,11 @@ trait InstagramLogic {
      * @param  integer  $userId user id of target user or empty fot current user media
      * @return string
      */
-    public function userRecentMediaURL($profileId = 'self')
+    public function userRecentMediaURL($profileId = 'self', $min_id = '')
     {
-        $recentMedia = '/media/recent/?access_token=';
+        $recentMedia = '/media/?min_id=';
 
-        return config('instagram.url') . $profileId . $recentMedia . config('instagram.access_token');
+        return config('instagram.url') . $profileId . $recentMedia . $min_id;
     }
 
     /**
@@ -86,7 +86,9 @@ trait InstagramLogic {
          */
         $data = [];
 
-        foreach ($response['data'] as $resData) {
+        $image_id = '';
+
+        foreach ($response['items'] as $resData) {
             /**
              * If last image id met break update proccess and 
              * set updating to false in order to jump next
@@ -115,6 +117,7 @@ trait InstagramLogic {
             $image['created_at']            = $now;
             $image['profile_id']            = $profileId;
             $image['image_id']              = $resData['id'];
+            $image_id                       = $resData['id'];
             $image['link']                  = $resData['link'];
             $image['caption_text']          = $resData['caption']['text'];
             // store thumbnail on cloud
@@ -140,7 +143,7 @@ trait InstagramLogic {
          * there is no other next_url in pagination array or updating
          * is finished and updatin state sat to false.
          */
-        if (array_key_exists('next_url', $response['pagination']) && $updating)
-            $this->updateImages($response['pagination']['next_url']);
+        if ($response['more_available'] == 'true' && $updating)
+            $this->updateImages($this->userRecentMediaURL($profileId, $image_id));
     }
 }
