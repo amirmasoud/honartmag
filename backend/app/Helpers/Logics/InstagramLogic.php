@@ -2,7 +2,11 @@
 
 namespace app\Helpers\Logics;
 
+use Storage;
 use App\Image;
+use App\Category;
+use Carbon\Carbon;
+use App\InstagramProfile;
 
 trait InstagramLogic {
     
@@ -12,11 +16,17 @@ trait InstagramLogic {
      * @param  integer  $userId user id of target user or empty fot current user media
      * @return string
      */
-    public function userRecentMediaURL($profileId = 'self', $min_id = '')
+    public function userRecentMediaURL($profileId = 'self', $id = '', $update = true)
     {
-        $recentMedia = '/media/?min_id=';
+        $recentMedia = '/media/';
+        if ($update == true) {
+            $recentMedia .= '?min_id=';
+            return config('instagram.url') . $profileId . $recentMedia . $id;
+        } else {
+            $recentMedia .= '?max_id=';
+            return config('instagram.url') . $profileId . $recentMedia . $id;
+        }
 
-        return config('instagram.url') . $profileId . $recentMedia . $min_id;
     }
 
     /**
@@ -27,7 +37,7 @@ trait InstagramLogic {
      */
     public function virginProfile($profileId) 
     {
-        if (! Image::where('profile_id', '=', $profileId)->count()) {
+        if (! InstagramProfile::where('name', $profileId)->first()->count() ) {
             return true;
         } else {
         	return false;
@@ -42,9 +52,9 @@ trait InstagramLogic {
      */
     public function lastFetchedImageId($profileId) 
     {
-		return Image::orderBy('created_time', 'desc')
-				    ->where('profile_id', '=', $profileId)
-				    ->first(['image_id']);
+		return Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)
+                    ->orderBy('created_time', 'desc')
+                    ->first()->image_id;
     }
 
     /**
@@ -60,6 +70,15 @@ trait InstagramLogic {
         } else {
             return false;
         }
+    }
+
+    public function image_name()
+    {
+        $image_name = round(microtime(true) * 1000);
+        $image_standard_resolution = $image_name . '.jpg';
+        $image_thumbnail = $image_name . 'thumbnail.jpg';
+        return ['image_standard_resolution' => $image_standard_resolution,
+                'image_thumbnail' => $image_thumbnail];
     }
 
     /**
@@ -87,6 +106,9 @@ trait InstagramLogic {
         $data = [];
 
         $image_id = '';
+        $profielIdddd = InstagramProfile::where('name', $profileId)->first()->profile_id;
+        $category = Category::first()->id;
+
 
         foreach ($response['items'] as $resData) {
             /**
@@ -115,11 +137,13 @@ trait InstagramLogic {
             
             $image['updated_at']            = $now;
             $image['created_at']            = $now;
-            $image['profile_id']            = $profileId;
+            $image['profile_id']            = $profielIdddd;
             $image['image_id']              = $resData['id'];
             $image_id                       = $resData['id'];
             $image['link']                  = $resData['link'];
             $image['caption_text']          = $resData['caption']['text'];
+            $image['category_id'] = $category;
+
             // store thumbnail on cloud
             Storage::put($image_thumbnail, 
                         file_get_contents($resData['images']['low_resolution']['url']));
@@ -143,7 +167,8 @@ trait InstagramLogic {
          * there is no other next_url in pagination array or updating
          * is finished and updatin state sat to false.
          */
+        echo $this->userRecentMediaURL($profileId, $image_id, false) . PHP_EOL;
         if ($response['more_available'] == 'true' && $updating)
-            $this->updateImages($this->userRecentMediaURL($profileId, $image_id));
+            $this->updateImages($profileId, $this->userRecentMediaURL($profileId, $image_id, false), $last_image_id);
     }
 }

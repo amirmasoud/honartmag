@@ -114,7 +114,8 @@ class Instagram implements InstagramContract
         if ($response['more_available'] == 'true')
         {
             $image_id = end($response['items'])['id'];
-            $this->store($this->userRecentMediaURL($profileId, $image_id), $profileId);
+            echo $this->userRecentMediaURL($profileId, $image_id) . PHP_EOL;
+            $this->store($this->userRecentMediaURL($profileId, $image_id, false), $profileId);
         } else {
             $image = [];
             $resData = end($response['items']);
@@ -163,31 +164,30 @@ class Instagram implements InstagramContract
         }
 
         // Otherwise get the last image id
-        $last_image = $this->lastFetchedImageId($profileId);
+        $last_image_id = $this->lastFetchedImageId($profileId);
 
         // If profile is empty
-        if ($this->emptyProfile($last_image)) {
+        if ($this->emptyProfile($last_image_id)) {
             return [$profileId, 'Empty Profile', 'Empty Profile'];
         }
 
         // If last image was not empty get the last image id
-        $last_image_id = $last_image->image_id;
+        //$last_image_id = $last_image->image_id;
 
         // Count of current images for given profile id before update.
-        $imagesCountBeforeUpadate = Image::where('profile_id', '=', $profileId)->count('image_id');
+        $imagesCountBeforeUpadate = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)->count('image_id');
+
+        echo "updating images" . PHP_EOL;
 
         // Recursive function
         $this->updateImages($profileId, $url, $last_image_id);
 
         // Count of current images for given profile id after updating.
-        $imagesCountAfterUpdate = Image::where('profile_id', '=', $profileId)->count('image_id');
+        $imagesCountAfterUpdate = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)->count('image_id');
 
         // number of inserted images after update.
         $imagesCount = $imagesCountAfterUpdate - $imagesCountBeforeUpadate;
 
-        // Profile name
-        $profileName = InstagramProfile::whereProfileId($profileId)->firstOrFail()->name;
-
-        return [$profileId, $imagesCount, $profileName];
+        return [$profileId, $imagesCount, $profileId];
     }
 }
