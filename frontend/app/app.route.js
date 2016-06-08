@@ -12,6 +12,10 @@ function config($routeProvider, $locationProvider) {
 			templateUrl: 'partials/index.html',
 			controller: 'ImageController'
 		})
+		.when('/category/:name', {
+			templateUrl: '../../partials/index.html',
+			controller: 'ImageController'
+		})
 		.when('/404', {
 			templateUrl: 'partials/404.html'
 		})

@@ -39,6 +39,16 @@ nav.logo {
     display: block;
 }
 
+.navbar-margin {
+    max-width: 1070px;
+    margin: 0 auto;
+    padding: 15px 0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
 /**
  * default size
  */
@@ -236,7 +246,6 @@ span.disabled .next-image:focus, span.disabled .prev-image:focus {
 .page {
     background: rgba(255, 255, 255, .95);
     padding: 50px 15px;
-    margin-top: -20px;
     border-radius: 0 0 4px 4px;
     border-bottom: 1px solid #F7F7F7;
     border-right: 1px solid #F7F7F7;
