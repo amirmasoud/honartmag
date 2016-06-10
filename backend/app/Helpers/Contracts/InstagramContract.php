@@ -10,7 +10,7 @@ Interface InstagramContract
      * @param  integer  $profile_id instagram profile id of the owner
      * @return  string   command line message
      */
-	public function store($url, $profile_id);
+    public function store($url, $profile_id);
 
     /**
      * Update images of a created Instagram profile.
@@ -18,5 +18,5 @@ Interface InstagramContract
      * @param  integer  $profile_id instagram profile id of the owner
      * @return string  command line message
      */
-	public function update($url, $profile_id);
+    public function update($url, $profile_id);
 }
