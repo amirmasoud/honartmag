@@ -74,7 +74,7 @@ class UpdateImages extends Command
         if ($this->argument('profile_id') == '') {
             $instagramProfiles = InstagramProfile::all();
             foreach ($instagramProfiles as $instagram) {
-               $this->update($instagram->profile_id);
+               $this->update($instagram->name);
             }
         } else {
             $this->update($this->argument('profile_id'));
