@@ -1,4 +1,4 @@
-<div class="row portfolio" infinite-scroll="loadMore()" infinite-scroll-disabled="finished">
+<div class="row portfolio" infinite-scroll="loadMore()">
     <div class="col-md-3 col-sm-6 portfolio-item" ng-repeat="image in images track by $index">
         <div ng-click="openModal(image.id)" class="image-container">
             <img class="img-responsive" ng-src="{{ image.thumb }}" alt="">
