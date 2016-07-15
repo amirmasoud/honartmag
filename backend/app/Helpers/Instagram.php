@@ -53,9 +53,17 @@ class Instagram implements InstagramContract
      */
     public function lastFetchedImageId($profileId) 
     {
-        return Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)
+        $image = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)
                     ->orderBy('created_time', 'desc')
-                    ->first()->image_id;
+                    ->first();
+
+        // Wheter or not images:store command executed.
+        if (empty($image)) {
+            // execute images:store first
+            return 0;
+        } else {
+            return $image->image_id;
+        }
     }
 
     /**
@@ -318,6 +326,10 @@ class Instagram implements InstagramContract
 
         // Otherwise get the last image id
         $last_image_id = $this->lastFetchedImageId($profileId);
+
+        if ($last_image_id == 0) {
+            return [$profile_id, 'Execute images:store command first', ''];
+        }
 
         // If profile is empty
         if ($this->emptyProfile($last_image_id)) {
