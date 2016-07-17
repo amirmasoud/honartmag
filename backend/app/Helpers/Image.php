@@ -36,7 +36,7 @@ class Image implements ImageContract
      */
     public function singular($id, $state = 'show')
     {
-        $image = ImageModel::select('id', 'full', 'caption_text', 'created_time')
+        $image = ImageModel::select('id', 'full', 'caption_text', 'link', 'created_time')
                             ->where('id', '=', $id)
                             ->where('state', $state)
                             ->firstOrFail();
