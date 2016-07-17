@@ -9,6 +9,7 @@
         </span>
         <div class="col-xs-10">
             <p class="caption-text" ng-bind-html="singular.caption_text | unsafe"></p>
+            <p><a href="{{ singular.link }}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> منبع</a></p>
         </div>
         <span class="next-image" ng-class="{disabled: !singular.next}" ng-click="openImage(singular.next, 'Next')">
             <div class="col-xs-1">
