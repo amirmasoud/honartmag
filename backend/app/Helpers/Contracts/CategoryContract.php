@@ -10,5 +10,14 @@ Interface CategoryContract
 	 * @param  string  $name
 	 * @return JSON
 	 */
-	public function singular($name);
+	public function all($name);
+
+    /**
+     * Get single image based on category.
+     *
+     * @param  string $name
+     * @param  integer $id
+     * @return json
+     */
+	public function singular($name, $id);
 }

@@ -14,10 +14,22 @@ class CategoriesController extends Controller
 	 * Get all images based on the category name.
 	 * 
 	 * @param  string $name
-	 * @return 
+	 * @return json
 	 */
-    public function singular(CategoryContract $category, $name)
+    public function all(CategoryContract $category, $name)
     {
-    	return $category->singular($name);
+    	return $category->all($name);
+    }
+
+    /**
+     * Get single image based on category.
+     *
+     * @param  string $name
+     * @param  integer $id
+     * @return json
+     */
+    public function singular(CategoryContract $category, $name, $id) 
+    {
+    	return $category->singular($name, $id);
     }
 }

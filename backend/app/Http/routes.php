@@ -13,7 +13,8 @@
 Route::group(['prefix' => 'api'], function() {
 	Route::get('/images', 'Api\ImagesController@all');
 	Route::get('/images/{id}', 'Api\ImagesController@singular');
-	Route::get('categories/{name}', 'Api\CategoriesController@singular');
+	Route::get('categories/{name}', 'Api\CategoriesController@all');
+	Route::get('categories/{name}/images/{id}', 'Api\CategoriesController@singular');
 });
 Route::get('/home', 'HomeController@index');
 Route::auth();

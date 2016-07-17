@@ -51,12 +51,21 @@ class Image extends Model
      * @param  string  $state image state, show|hide|new, default show
      * @return \Illuminate\Database\Eloquent\Builder
      */
-	public function scopeNextId($query, $id, $state = 'show')
+	public function scopeNextId($query, $id, $category = '', $state = 'show')
 	{
-		return $query->where('id', '>', $id)
-					 ->Where('state', '=', 'show')
-					 ->orderBy('id', 'asc')
-					 ->first(['id']);
+		if ($category == '') {
+			return $query->where('id', '>', $id)
+						 ->Where('state', '=', $state)
+						 ->orderBy('id', 'asc')
+						 ->first(['id']);
+		} else {
+			$cat_ID = Category::where('name', $category)->firstOrFail()->id;
+			return $query->where('id', '>', $id)
+						 ->Where('state', '=', $state)
+						 ->where('category_id', '=', $cat_ID)
+						 ->orderBy('id', 'asc')
+						 ->first(['id']);
+		}
 	}
 
     /**
@@ -67,12 +76,21 @@ class Image extends Model
      * @param  string  $state image state, show|hide|new, default show
      * @return \Illuminate\Database\Eloquent\Builder
      */
-	public function scopePrevId($query, $id, $state = 'show')
+	public function scopePrevId($query, $id,  $category = '', $state = 'show')
 	{
-		return $query->where('id', '<', $id)
-					 ->Where('state', '=', 'show')
-					 ->orderBy('id', 'desc')
-					 ->first(['id']);
+		if ($category == '') {
+			return $query->where('id', '<', $id)
+						 ->Where('state', '=', $state)
+						 ->orderBy('id', 'desc')
+						 ->first(['id']);
+		} else {
+			$cat_ID = Category::where('name', $category)->firstOrFail()->id;
+			return $query->where('id', '<', $id)
+						 ->Where('state', '=', $state)
+						 ->where('category_id', '=', $cat_ID)
+						 ->orderBy('id', 'asc')
+						 ->first(['id']);
+		}
 	}
 
 	public function getFullAttribute($value)
