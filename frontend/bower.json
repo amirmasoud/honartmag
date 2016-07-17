@@ -20,6 +20,7 @@
     "jquery": "^2.2.3",
     "ngInfiniteScroll": "^1.2.2",
     "font-awesome": "^4.6.3",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
+    "angular-ui-router": "^0.3.1"
   }
 }

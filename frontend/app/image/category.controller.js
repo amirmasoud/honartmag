@@ -2,23 +2,25 @@ angular
 	.module('app')
 	.controller('CategoryController', CategoryController);
 
-CategoryController.$inject = ['$scope', '$http', 'ImageService', '$uibModal'];
-function CategoryController($scope, $http, ImageService, $uibModal) {
+CategoryController.$inject = ['$scope', '$http', 'ImageService', '$uibModal', '$routeParams'];
+function CategoryController($scope, $http, ImageService, $uibModal, $routeParams) {
 	var vm = this;
     $scope.images = [];
     $scope.loadMoreBtn = 'بیشتر';
     $scope.finished = false;
     $scope.loadingModal = false;
+    $scope.category = $routeParams.name;
 
     var busy = false,
     	page = 1;
+    	category = $routeParams.name;
 
     function getImages() {
 		if (busy) return;
 			busy = true;
     	$scope.loadMoreBtn = "<span class='load-more-spin fa fa-circle-o-notch fa-spin'></span> در حال آوردن موارد بیشتر...";
 
-    	return ImageService.get(page)
+    	return ImageService.category(category, page)
 	        .then(function(result) {
 	        	if (!result['data']['next_page_url']) {
 	        		$scope.finished = true;

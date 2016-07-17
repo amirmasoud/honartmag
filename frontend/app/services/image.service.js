@@ -15,9 +15,9 @@ function image($http, env) {
                 params: { id: id }
             });
         },
-        category : function(name) {
+        category : function(name, page) {
             return $http.get(env.url + 'categories/' + name, {
-                params: { name: name }
+                params: { page: page }
             });
         }
     }
