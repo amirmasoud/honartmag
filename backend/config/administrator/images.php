@@ -35,7 +35,7 @@ return array(
 		'id',
 		'caption_text' => array(
 		    'title' => 'Caption Text',
-		    'type' 	=> 'wysiwyg',
+		    'type' 	=> 'textarea',
 		),
 		'state' => array(
 		    'type' => 'enum',
