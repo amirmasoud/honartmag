@@ -54,7 +54,7 @@ function CategoryController($scope, $http, ImageService, $uibModal, $routeParams
 			size: 'custom',
 			resolve: {
 				singular: function () {
-					return ImageService.singular(id)
+					return ImageService.singularCat(category, id)
 						.then(function(result) {
 							self.loadingModal = false;
 							return result['data'];

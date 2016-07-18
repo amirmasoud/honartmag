@@ -11,14 +11,15 @@ function image($http, env) {
             });
         },
         singular : function(id) {
-            return $http.get(env.url + 'images/' + id, {
-                params: { id: id }
-            });
+            return $http.get(env.url + 'images/' + id);
         },
         category : function(name, page) {
             return $http.get(env.url + 'categories/' + name, {
                 params: { page: page }
             });
+        },
+        singularCat : function(name, id) {
+            return $http.get(env.url + 'categories/' + name + '/images/' + id);
         }
     }
 }
