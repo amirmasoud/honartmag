@@ -44,8 +44,8 @@ class Category implements CategoryContract
         $image =  CategoryModel::where('name', $name)
                             ->firstOrFail()
                             ->images()
+                            ->select(['id', 'full', 'caption_text', 'link', 'created_time'])
                             ->where('id', $id)
-                            ->select(['id', 'thumb'])
                             ->firstOrFail();
 
         $nextId = ImageModel::NextId($image->id, $name);
