@@ -12,14 +12,14 @@ class StoreImages extends Command
      *
      * @var string
      */
-    protected $signature = 'images:store {profile_id}';
+    protected $signature = 'images:store {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Store all images of an instagram profile id';
+    protected $description = 'Store all images of an instagram by name';
 
     /**
      * Instagram image saver
@@ -47,7 +47,7 @@ class StoreImages extends Command
      */
     public function handle()
     {
-        $media = $this->instagram->media($this->argument('profile_id'));
-        $this->comment($this->instagram->store( $media, $this->argument('profile_id') ));
+        $media = $this->instagram->media($this->argument('name'));
+        $this->comment($this->instagram->store( $media, $this->argument('name') ));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Image;
+use App\InstagramProfile;
 use App\Helpers\Instagram;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -7,20 +9,20 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class InstagramTest extends TestCase
 {
-	/**
-	 * Instagram instance.
-	 * 
-	 * @access private
-	 * @var obj
-	 */
-	private $instagram;
+    /**
+     * Instagram instance.
+     * 
+     * @access private
+     * @var obj
+     */
+    private $instagram;
 
-	/**
-	 * setUp method.
-	 *
-	 * @since 1.0.0
-	 * @link  https://phpunit.de/manual/current/en/fixtures.html
-	 */
+    /**
+     * setUp method.
+     *
+     * @since 1.0.0
+     * @link  https://phpunit.de/manual/current/en/fixtures.html
+     */
     protected function setUp()
     {
     	/**
@@ -33,29 +35,68 @@ class InstagramTest extends TestCase
     	parent::createApplication();
 
     	$this->instagram = new Instagram();
+
+        // Remove test instagram profile.
+        InstagramProfile::where('name', '=', 'test')->delete();
     }
 
     /**
      * test media method.
      *
-     * @return void
+     * @return  void
      */
     public function testMedia()
     {
-    	// Self URL
+        // Self URL
         $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id|min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media());
 
-        // username URL
-        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id|min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('amirmasoud.32'));
+        // Username URL
+        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id|min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('test'));
 
-        // id URL
-        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id|min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('amirmasoud.32', '1111111111111111111_1111111111'));
+        // ID URL
+        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id|min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('test', '1111111111111111111_1111111111'));
 
-        // updating true URL
-        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('amirmasoud.32', '1111111111111111111_1111111111', true));
+        // Updating true URL
+        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(min_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('test', '1111111111111111111_1111111111', true));
 
-        // updating false URL
-        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('amirmasoud.32', '1111111111111111111_1111111111', false));
-        
+        // Updating false URL
+        $this->assertRegExp('/^(https:\/\/www.instagram.com\/(self|([A-Za-z0-9._]){1,30})\/media\/\?(max_id)=((\d){19}_(\d){10})?)$/', $this->instagram->media('test', '1111111111111111111_1111111111', false));
+    }
+
+    /**
+     * Test exists method.
+     * 
+     * @return 	void
+     */
+    public function testExists()
+    {
+        // Create instagram profile.
+        factory(InstagramProfile::class)->create();
+
+        $this->assertTrue($this->instagram->exists('test'));
+
+        // Rollback instagram profile and images.
+        InstagramProfile::where('name', '=', 'test')->delete();
+
+        $this->assertFalse($this->instagram->exists('test'));
+    }
+
+    /**
+     * Test lastImageID method.
+     * 
+     * @return void
+     */
+    public function testLastImageID()
+    {
+        // Create instagram profile.
+        factory(InstagramProfile::class)->create();
+
+        // Create sample image
+        // Mock images:insert command
+        factory(Image::class)->create();
+
+        $this->assertRegExp('/^((\d){19}_(\d){10})$/', $this->instagram->lastImageID('test'));
+
+        InstagramProfile::where('name', '=', 'test')->delete();
     }
 }

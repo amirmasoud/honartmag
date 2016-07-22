@@ -11,6 +11,7 @@
 
 namespace app\Helpers;
 
+use Artisan;
 use Storage;
 use App\Image;
 use App\Category;
@@ -25,8 +26,8 @@ class Instagram implements InstagramContract
      *
      * @since  1.0.0
      * @param  string  $name namename of the account
-     * @param  integer $id
-     * @param  boolean $updating
+     * @param  integer  $id
+     * @param  boolean  $updating
      * @return string
      */
     public function media($name = 'self', $id = '', $updating = true)
@@ -36,18 +37,19 @@ class Instagram implements InstagramContract
         } else {
             return config('instagram.url') . $name . '/media/?max_id=' . $id;
         }
-
     }
 
     /**
-     * If there is no image for this profile id return not found.
-     * 
-     * @param  string $name
+     * If there is no image for this profile name return not found.
+     *
+     * @since  1.0.0
+     * @param  string  $name
      * @return boolean
      */
-    public function virginProfile($name) 
+    public function exists($name) 
     {
-        if (! InstagramProfile::where('name', $name)->first()->count() ) {
+        $profile = InstagramProfile::where('name', $name)->first();
+        if (!is_null($profile)) {
             return true;
         } else {
             return false;
@@ -57,19 +59,23 @@ class Instagram implements InstagramContract
     /**
      * Get last fetched image by profile id.
      *
-     * @param  integer $profileId
-     * @return collection
+     * @param  string  $name
+     * @return Artisan|string
      */
-    public function lastFetchedImageId($profileId) 
+    public function lastImageID($name) 
     {
-        $image = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)
-                    ->orderBy('created_time', 'desc')
-                    ->first();
+        $image = InstagramProfile::where('name', $name)
+                                 ->first()
+                                 ->images()
+                                 ->orderBy('created_time', 'desc')
+                                 ->first();
 
         // Wheter or not images:store command executed.
         if (empty($image)) {
-            // execute images:store first
-            return 0;
+            // Execute images:store for the first time.
+            return Artisan::call('images:store', [
+                    'name' => $name
+                ]);
         } else {
             return $image->image_id;
         }
@@ -329,16 +335,12 @@ class Instagram implements InstagramContract
     public function update($url, $profileId)
     {
         // If profile id is virgin return not found message
-        if ($this->virginProfile($profileId)) {
+        if (!$this->exists($profileId)) {
             return [$profileId, 'Not Found', 'Not Found'];
         }
 
         // Otherwise get the last image id
-        $last_image_id = $this->lastFetchedImageId($profileId);
-
-        if ($last_image_id == 0) {
-            return [$profile_id, 'Execute images:store command first', ''];
-        }
+        $last_image_id = $this->lastImageID($profileId);
 
         // If profile is empty
         if ($this->emptyProfile($last_image_id)) {
