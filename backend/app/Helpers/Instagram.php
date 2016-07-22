@@ -81,21 +81,6 @@ class Instagram implements InstagramContract
         }
     }
 
-    /**
-     * If profile id is empty
-     * 
-     * @param  collection $last_image
-     * @return array
-     */
-    public function emptyProfile($last_image)
-    {
-        if (is_null($last_image)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function image_name()
     {
         $image_name = round(microtime(true) * 1000);
@@ -341,14 +326,6 @@ class Instagram implements InstagramContract
 
         // Otherwise get the last image id
         $last_image_id = $this->lastImageID($profileId);
-
-        // If profile is empty
-        if ($this->emptyProfile($last_image_id)) {
-            return [$profileId, 'Empty Profile', 'Empty Profile'];
-        }
-
-        // If last image was not empty get the last image id
-        //$last_image_id = $last_image->image_id;
 
         // Count of current images for given profile id before update.
         $imagesCountBeforeUpadate = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)->count('image_id');
