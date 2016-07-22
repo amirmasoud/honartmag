@@ -97,7 +97,7 @@ class UpdateImages extends Command
      */
     private function update($profile_id)
     {
-        $userRecentMediaURL = $this->instagram->userRecentMediaURL($profile_id);
-        $this->comments[]   = $this->instagram->update( $userRecentMediaURL, $profile_id );
+        $media = $this->instagram->media($profile_id);
+        $this->comments[]   = $this->instagram->update( $media, $profile_id );
     }
 }

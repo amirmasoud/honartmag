@@ -47,7 +47,7 @@ class StoreImages extends Command
      */
     public function handle()
     {
-        $userRecentMediaURL = $this->instagram->userRecentMediaURL($this->argument('profile_id'));
-        $this->comment($this->instagram->store( $userRecentMediaURL, $this->argument('profile_id') ));
+        $media = $this->instagram->media($this->argument('profile_id'));
+        $this->comment($this->instagram->store( $media, $this->argument('profile_id') ));
     }
 }

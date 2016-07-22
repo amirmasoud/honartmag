@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the HonarMag application.
+ *
+ * @author amirmasoud sheidayi <amirmasood33@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace app\Helpers;
 
 use Storage;
@@ -12,20 +21,20 @@ use App\Helpers\Contracts\InstagramContract;
 class Instagram implements InstagramContract
 {
     /**
-     * Generate recent media by a user url.
-     * 
-     * @param  integer  $userId user id of target user or empty fot current user media
+     * Generate recent media url.
+     *
+     * @since  1.0.0
+     * @param  string  $name namename of the account
+     * @param  integer $id
+     * @param  boolean $updating
      * @return string
      */
-    public function userRecentMediaURL($profileId = 'self', $id = '', $update = true)
+    public function media($name = 'self', $id = '', $updating = true)
     {
-        $recentMedia = '/media/';
-        if ($update == true) {
-            $recentMedia .= '?min_id=';
-            return config('instagram.url') . $profileId . $recentMedia . $id;
+        if ($updating == true) {
+            return config('instagram.url') . $name . '/media/?min_id=' . $id;
         } else {
-            $recentMedia .= '?max_id=';
-            return config('instagram.url') . $profileId . $recentMedia . $id;
+            return config('instagram.url') . $name . '/media/?max_id=' . $id;
         }
 
     }
@@ -33,12 +42,12 @@ class Instagram implements InstagramContract
     /**
      * If there is no image for this profile id return not found.
      * 
-     * @param  integer $profileId
+     * @param  string $name
      * @return boolean
      */
-    public function virginProfile($profileId) 
+    public function virginProfile($name) 
     {
-        if (! InstagramProfile::where('name', $profileId)->first()->count() ) {
+        if (! InstagramProfile::where('name', $name)->first()->count() ) {
             return true;
         } else {
             return false;
@@ -176,9 +185,9 @@ class Instagram implements InstagramContract
          * there is no other next_url in pagination array or updating
          * is finished and updatin state sat to false.
          */
-        echo $this->userRecentMediaURL($profileId, $image_id, false) . PHP_EOL;
+        echo $this->media($profileId, $image_id, false) . PHP_EOL;
         if ($response['more_available'] == 'true' && $updating)
-            $this->updateImages($profileId, $this->userRecentMediaURL($profileId, $image_id, false), $last_image_id);
+            $this->updateImages($profileId, $this->media($profileId, $image_id, false), $last_image_id);
     }
 
     /**
@@ -255,7 +264,7 @@ class Instagram implements InstagramContract
          * there is no other next_url in pagination array.
          */
         if ($response['more_available'] == 'true')
-            $this->store($this->userRecentMediaURL($profileId, $image_id), $profileId);
+            $this->store($this->media($profileId, $image_id), $profileId);
 
         // Count of inserted images.
         $imagesCount = Image::where('profile_id', '=', $profielIdddd)->count('image_id');
@@ -278,8 +287,8 @@ class Instagram implements InstagramContract
         if ($response['more_available'] == 'true')
         {
             $image_id = end($response['items'])['id'];
-            echo $this->userRecentMediaURL($profileId, $image_id) . PHP_EOL;
-            $this->store($this->userRecentMediaURL($profileId, $image_id, false), $profileId);
+            echo $this->media($profileId, $image_id) . PHP_EOL;
+            $this->store($this->media($profileId, $image_id, false), $profileId);
         } else {
             $image = [];
             $resData = end($response['items']);
@@ -306,7 +315,7 @@ class Instagram implements InstagramContract
 
             Image::insert($image);
 
-            $this->update($this->userRecentMediaURL($profileId, $image['image_id']), $profileId);
+            $this->update($this->media($profileId, $image['image_id']), $profileId);
         }
     }
 
