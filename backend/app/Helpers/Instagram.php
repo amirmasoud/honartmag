@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the HonarMag application.
  *
@@ -79,15 +78,6 @@ class Instagram implements InstagramContract
         } else {
             return $image->image_id;
         }
-    }
-
-    public function image_name()
-    {
-        $image_name = round(microtime(true) * 1000);
-        $image_standard_resolution = $image_name . '.jpg';
-        $image_thumbnail = $image_name . 'thumbnail.jpg';
-        return ['image_standard_resolution' => $image_standard_resolution,
-                'image_thumbnail' => $image_thumbnail];
     }
 
     /**
