@@ -29,14 +29,14 @@ function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singu
 	hotkeys.add({
 		combo: 'right',
 		callback: function() {
-			$scope.openImage($scope.singular.prev, 'Prev');
+			$scope.openImage($scope.singular.next, 'Next');
 		}
 	});
 
 	hotkeys.add({
 		combo: 'left',
 		callback: function() {
-			$scope.openImage($scope.singular.next, 'Next');
+			$scope.openImage($scope.singular.prev, 'Prev');
 		}
 	});
 }

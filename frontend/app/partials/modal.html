@@ -2,18 +2,18 @@
 <img class="img-responsive standard-resolution" alt="" ng-src="{{ singular.full }}">
 <div class="modal-footer">
     <div class="row">
-        <span class="next-image" ng-class="{disabled: !singular.next}" ng-click="openImage(singular.next, 'Next')">
+        <span class="prev-image" ng-class="{disabled: !singular.prev}" ng-click="openImage(singular.prev, 'Prev')">
             <div class="col-xs-1 margin-top-10">
-                <i ng-class="loadingImageNext ? 'fa-circle-o-notch fa-spin' : 'fa-chevron-left'" class="fa"></i>
+                <i ng-class="loadingImagePrev ? 'fa-circle-o-notch fa-spin' : 'fa-chevron-left'" class="fa"></i>
             </div>
         </span>
         <div class="col-xs-10">
             <p class="caption-text" ng-bind-html="singular.caption_text | unsafe"></p>
             <p><a href="{{ singular.link }}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> منبع</a></p>
         </div>
-        <span class="prev-image" ng-class="{disabled: !singular.prev}" ng-click="openImage(singular.prev, 'Prev')">
+        <span class="next-image" ng-class="{disabled: !singular.next}" ng-click="openImage(singular.next, 'Next')">
             <div class="col-xs-1 margin-top-10">
-                <i ng-class="loadingImagePrev ? 'fa-circle-o-notch fa-spin' : 'fa-chevron-right'" class="fa"></i>
+                <i ng-class="loadingImageNext ? 'fa-circle-o-notch fa-spin' : 'fa-chevron-right'" class="fa"></i>
             </div>
         </span>
     </div>
