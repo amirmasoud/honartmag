@@ -46,6 +46,7 @@ class Category implements CategoryContract
                             ->firstOrFail()
                             ->images()
                             ->select(['id', 'full', 'caption_text', 'link', 'created_time'])
+                            ->orderBy('id', 'desc')
                             ->where('id', $id)
                             ->firstOrFail();
 
