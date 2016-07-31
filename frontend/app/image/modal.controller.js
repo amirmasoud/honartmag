@@ -2,23 +2,32 @@ angular
 	.module('app')
 	.controller('ModalController', ModalController);
 
-ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular'];
-function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular) {
+ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular', '$routeParams'];
+function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular, $routeParams) {
 	$scope.singular = singular;
 	$scope.loadingImageNext = false;
 	$scope.loadingImagePrev = false;
+	$scope.category = $routeParams.name;
 
 	$scope.openImage = function(id, direction) {
 		if (id) {
 			if (typeof direction !== 'undefined')
 				$scope['loadingImage' + direction] = true;
-
-			return ImageService.singular(id)
-				.then(function(result) {
-					$scope.singular.standard_resolution = '#';
-					$scope.singular = result['data'];
-					$scope['loadingImage' + direction] = false;
-				});
+			if (typeof $scope.category !== 'undefined') {
+				return ImageService.singularCat($scope.category, id)
+					.then(function(result) {
+						$scope.singular.standard_resolution = '#';
+						$scope.singular = result['data'];
+						$scope['loadingImage' + direction] = false;
+					});
+			} else {
+				return ImageService.singular(id)
+					.then(function(result) {
+						$scope.singular.standard_resolution = '#';
+						$scope.singular = result['data'];
+						$scope['loadingImage' + direction] = false;
+					});
+			}
 		}
 	}
 
