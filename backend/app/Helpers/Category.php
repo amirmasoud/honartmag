@@ -21,6 +21,7 @@ class Category implements CategoryContract
                             ->firstOrFail()
                             ->images()
                             ->select(['id', 'thumb'])
+                            ->orderBy('id', 'desc')
                             ->simplePaginate(config('honart.paginate'));
 
         // add category.name to each image

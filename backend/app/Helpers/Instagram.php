@@ -1,7 +1,16 @@
 <?php
+/**
+ * This file is part of the HonarMag application.
+ *
+ * @author amirmasoud sheidayi <amirmasood33@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace app\Helpers;
 
+use Artisan;
 use Storage;
 use App\Image;
 use App\Category;
@@ -11,34 +20,36 @@ use App\Helpers\Contracts\InstagramContract;
 
 class Instagram implements InstagramContract
 {
+    private $imageID;
     /**
-     * Generate recent media by a user url.
-     * 
-     * @param  integer  $userId user id of target user or empty fot current user media
+     * Generate recent media url.
+     *
+     * @since  1.0.0
+     * @param  string  $name namename of the account
+     * @param  integer  $id
+     * @param  boolean  $updating
      * @return string
      */
-    public function userRecentMediaURL($profileId = 'self', $id = '', $update = true)
+    public function media($name = 'self', $id = '', $updating = true)
     {
-        $recentMedia = '/media/';
-        if ($update == true) {
-            $recentMedia .= '?min_id=';
-            return config('instagram.url') . $profileId . $recentMedia . $id;
+        if ($updating == true) {
+            return config('instagram.url') . $name . '/media/?min_id=' . $id;
         } else {
-            $recentMedia .= '?max_id=';
-            return config('instagram.url') . $profileId . $recentMedia . $id;
+            return config('instagram.url') . $name . '/media/?max_id=' . $id;
         }
-
     }
 
     /**
-     * If there is no image for this profile id return not found.
-     * 
-     * @param  integer $profileId
+     * If there is no image for this profile name return not found.
+     *
+     * @since  1.0.0
+     * @param  string  $name
      * @return boolean
      */
-    public function virginProfile($profileId) 
+    public function exists($name) 
     {
-        if (! InstagramProfile::where('name', $profileId)->first()->count() ) {
+        $profile = InstagramProfile::where('name', $name)->first();
+        if (!is_null($profile)) {
             return true;
         } else {
             return false;
@@ -48,126 +59,46 @@ class Instagram implements InstagramContract
     /**
      * Get last fetched image by profile id.
      *
-     * @param  integer $profileId
-     * @return collection
+     * @param  string  $name
+     * @return Artisan|string
      */
-    public function lastFetchedImageId($profileId) 
+    public function lastImageID($name) 
     {
-        $image = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)
-                    ->orderBy('created_time', 'desc')
-                    ->first();
+        $image = InstagramProfile::where('name', $name)
+                                 ->first()
+                                 ->images()
+                                 ->orderBy('created_time', 'desc')
+                                 ->first();
 
         // Wheter or not images:store command executed.
         if (empty($image)) {
-            // execute images:store first
-            return 0;
+            // Execute images:store for the first time.
+            return Artisan::call('images:store', [
+                    'name' => $name
+                ]);
         } else {
             return $image->image_id;
         }
     }
 
     /**
-     * If profile id is empty
-     * 
-     * @param  collection $last_image
-     * @return array
-     */
-    public function emptyProfile($last_image)
-    {
-        if (is_null($last_image)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function image_name()
-    {
-        $image_name = round(microtime(true) * 1000);
-        $image_standard_resolution = $image_name . '.jpg';
-        $image_thumbnail = $image_name . 'thumbnail.jpg';
-        return ['image_standard_resolution' => $image_standard_resolution,
-                'image_thumbnail' => $image_thumbnail];
-    }
-
-    /**
      * Update process for inserting new images.
-     * 
-     * @param  integer $profileId
+     *
+     * @since  1.0.0
+     * @param  string  $name
      * @param  string  $url
-     * @param  integer $last_image_id
+     * @param  integer  $lastImageID
      * @return void
      */
-    public function updateImages($profileId, $url, $last_image_id)
+    public function updateImages($name, $url, $lastImageID)
     {
         static $updating = true;
+        $response = $this->getContentsOf($url);
+        $profileID = InstagramProfile::where('name', $name)
+                                     ->first()
+                                     ->profile_id;
 
-        // Get associative arrays.
-        $response = json_decode(file_get_contents($url), true);
-
-        /**
-         * Each response contains 20 new images
-         * every new images first save in this
-         * array and then will insert to DB.
-         * 
-         * @var array
-         */
-        $data = [];
-
-        $image_id = '';
-        $profielIdddd = InstagramProfile::where('name', $profileId)->first()->profile_id;
-        $category = Category::first()->id;
-
-
-        foreach ($response['items'] as $resData) {
-            /**
-             * If last image id met break update proccess and 
-             * set updating to false in order to jump next
-             * page proccessing.
-             */
-            if ($last_image_id == $resData['id']) {
-                $updating = false;
-                break;
-            }
-
-            // Create unique image name
-            $image_name = round(microtime(true) * 1000);
-            $image_standard_resolution = $image_name . '.jpg';
-            $image_thumbnail = $image_name . 'thumbnail.jpg';
-
-            /**
-             * To initialize created_at and updated_at in bulk
-             * insertion created_at and updated_at 
-             * not working out of the box.
-             * 
-             * @var DateTime
-             */
-            $now = Carbon::now();
-            
-            $image['updated_at']            = $now;
-            $image['created_at']            = $now;
-            $image['profile_id']            = $profielIdddd;
-            $image['image_id']              = $resData['id'];
-            $image_id                       = $resData['id'];
-            $image['link']                  = $resData['link'];
-            $image['caption_text']          = $resData['caption']['text'];
-            $image['category_id'] = $category;
-
-            // store thumbnail on cloud
-            Storage::put($image_thumbnail, 
-                        file_get_contents($resData['images']['low_resolution']['url']));
-            $image['thumb']                 = $image_thumbnail;
-
-            // store standard image on cloud
-            Storage::put($image_standard_resolution, 
-                        file_get_contents($resData['images']['standard_resolution']['url']));
-            $image['full'] = $image_standard_resolution;
-            
-            $image['created_time']          = Carbon::createFromTimestamp($resData['caption']['created_time']);
-
-            // add current image to buck insertion array
-            $data[] = $image;
-        }
+        $data = $this->getData($response, $lastImageID, $profileID, $updating);
 
         $result = Image::insert($data);
 
@@ -176,137 +107,69 @@ class Instagram implements InstagramContract
          * there is no other next_url in pagination array or updating
          * is finished and updatin state sat to false.
          */
-        echo $this->userRecentMediaURL($profileId, $image_id, false) . PHP_EOL;
-        if ($response['more_available'] == 'true' && $updating)
-            $this->updateImages($profileId, $this->userRecentMediaURL($profileId, $image_id, false), $last_image_id);
+        if ($response['more_available'] == 'true' && $updating) {
+            $next = $this->media($name, $this->imageID, false);
+            $this->updateImages($name, $next, $lastImageID);
+        }
     }
 
     /**
      * Store images of a instagram profile for the first time.
      * 
      * @param  string  $url recent instagram url
-     * @param  integer  $profileId instagram profile id of the owner
+     * @param  integer  $name instagram profile id of the owner
      * @return  string   command line message
      */
-    public function storeComplete($url, $profileId)
+    public function store($url, $name)
     {
         // Get associative arrays.
         $response = json_decode(file_get_contents($url), true);
 
-        /**
-         * Each response contains 20 new images
-         * every new images first save in this
-         * array and then will insert to DB.
-         * 
-         * @var array
-         */
-        $data = [];
+        if ($response['more_available'] == 'true') {
+            $imageID = end($response['items'])['id'];
+            $this->store($this->media($name, $imageID, false), $name);
+        } else {
+            $resData = end($response['items']);
+            $profileID = InstagramProfile::where('name', $name)
+                                         ->first()
+                                         ->profile_id;
+            $category = Category::first()->id;
 
-        $image_id = '';
-
-        $profielIdddd = InstagramProfile::where('name', $profileId)->first()->profile_id;
-        $category = Category::first()->id;
-
-        foreach ($response['items'] as $resData) {
-            // Current image
-            $image = [];
+            $now = Carbon::now();
 
             // Create unique image name
-            $image_name = round(microtime(true) * 1000);
-            $image_standard_resolution = $image_name . '.jpg';
-            $image_thumbnail = $image_name . 'thumbnail.jpg';
+            $imageName               = round(microtime(true) * 1000);
+            $imageStandardResolution = $imageName . '.jpg';
+            $imageThumbnail          = $imageName . 'thumbnail.jpg';
 
-            /**
-             * To initialize created_at and updated_at in bulk
-             * insertion created_at and updated_at 
-             * not working out of the box.
-             * 
-             * @var DateTime
-             */
-            $now = Carbon::now();
-            
             $image['updated_at']   = $now;
             $image['created_at']   = $now;
-            $image['profile_id']   = $profielIdddd;
+            $image['profile_id']   = $profileID;
             $image['image_id']     = $resData['id'];
-            $image_id              = $resData['id'];
             $image['link']         = $resData['link'];
             $image['caption_text'] = $resData['caption']['text'];
+
             // store thumbnail on cloud
-            Storage::put($image_thumbnail, file_get_contents($resData['images']['low_resolution']['url']));
-            $image['thumb']        = $image_thumbnail;
+            $thumbURL = $resData['images']['low_resolution']['url'];
+            $thumbURL = file_get_contents($thumbURL);
+            Storage::put($imageThumbnail, $thumbURL);
+            $image['thumb']         = $imageThumbnail;
 
             // store standard image on cloud
-            Storage::put($image_standard_resolution, file_get_contents($resData['images']['standard_resolution']['url']));
-            $image['full'] = $image_standard_resolution;
+            $fullURL = $resData['images']['standard_resolution']['url'];
+            $fullURL = file_get_contents($fullURL);
+            Storage::put($imageStandardResolution, $fullURL);
+            $image['full']          = $imageStandardResolution;
             
-            $image['created_time'] = Carbon::createFromTimestamp($resData['caption']['created_time']);
+            $created_time = $resData['caption']['created_time'];
+            $created_time = Carbon::createFromTimestamp($created_time);
+            $image['created_time']  = $created_time;            
 
-            $image['category_id'] = $category;
-
-            // add current image to buck insertion array
-            $data[] = $image;
-        }
-
-        Image::insert($data);
-
-        /**
-         * Recursively run same function until reaching the point that
-         * there is no other next_url in pagination array.
-         */
-        if ($response['more_available'] == 'true')
-            $this->store($this->userRecentMediaURL($profileId, $image_id), $profileId);
-
-        // Count of inserted images.
-        $imagesCount = Image::where('profile_id', '=', $profielIdddd)->count('image_id');
-
-        return PHP_EOL . $imagesCount . ' image(s) inserted for ' . $profileId . PHP_EOL;
-    }
-
-    /**
-     * Store images of a instagram profile for the first time.
-     * 
-     * @param  string  $url recent instagram url
-     * @param  integer  $profileId instagram profile id of the owner
-     * @return  string   command line message
-     */
-    public function store($url, $profileId)
-    {
-        // Get associative arrays.
-        $response = json_decode(file_get_contents($url), true);
-
-        if ($response['more_available'] == 'true')
-        {
-            $image_id = end($response['items'])['id'];
-            echo $this->userRecentMediaURL($profileId, $image_id) . PHP_EOL;
-            $this->store($this->userRecentMediaURL($profileId, $image_id, false), $profileId);
-        } else {
-            $image = [];
-            $resData = end($response['items']);
-
-            $profielIdddd = InstagramProfile::where('name', $profileId)->first()->profile_id;
-            $category = Category::first()->id;
-            $now = Carbon::now();
-            // Create unique image name
-            $image_name = round(microtime(true) * 1000);
-            $image_standard_resolution = $image_name . '.jpg';
-            $image_thumbnail = $image_name . 'thumbnail.jpg';
-
-            $image['updated_at']   = $now;
-            $image['created_at']   = $now;
-            $image['profile_id']   = $profielIdddd;
-            $image['image_id']     = $resData['id'];
-            $image['link']         = $resData['link'];
-            $image['caption_text'] = $resData['caption']['text'];
-            $image['thumb']        = $image_thumbnail;
-            $image['full']         = $image_standard_resolution;
-            $image['created_time'] = Carbon::createFromTimestamp($resData['caption']['created_time']);
-
-            $image['category_id'] = $category;
+            $image['category_id']   = $category;
 
             Image::insert($image);
 
-            $this->update($this->userRecentMediaURL($profileId, $image['image_id']), $profileId);
+            $this->update($this->media($name, $image['image_id']), $name);
         }
     }
 
@@ -317,42 +180,114 @@ class Instagram implements InstagramContract
      * @param  integer  $profileId instagram profile id of the owner
      * @return string  command line message
      */
-    public function update($url, $profileId)
+    public function update($url, $name)
     {
         // If profile id is virgin return not found message
-        if ($this->virginProfile($profileId)) {
-            return [$profileId, 'Not Found', 'Not Found'];
+        if (!$this->exists($name)) {
+            return [$name, 'Not Found', 'Not Found'];
         }
 
         // Otherwise get the last image id
-        $last_image_id = $this->lastFetchedImageId($profileId);
-
-        if ($last_image_id == 0) {
-            return [$profile_id, 'Execute images:store command first', ''];
-        }
-
-        // If profile is empty
-        if ($this->emptyProfile($last_image_id)) {
-            return [$profileId, 'Empty Profile', 'Empty Profile'];
-        }
-
-        // If last image was not empty get the last image id
-        //$last_image_id = $last_image->image_id;
+        $lastImageID = $this->lastImageID($name);
 
         // Count of current images for given profile id before update.
-        $imagesCountBeforeUpadate = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)->count('image_id');
-
-        echo "updating images" . PHP_EOL;
+        
+        $imagesCountBeforeUpadate = InstagramProfile::where('name', $name)
+                                                    ->first()
+                                                    ->images()
+                                                    ->count();
 
         // Recursive function
-        $this->updateImages($profileId, $url, $last_image_id);
+        $this->updateImages($name, $url, $lastImageID);
 
         // Count of current images for given profile id after updating.
-        $imagesCountAfterUpdate = Image::where('profile_id', '=', InstagramProfile::where('name', $profileId)->first()->profile_id)->count('image_id');
+        $imagesCountAfterUpdate = InstagramProfile::where('name', $name)
+                                                    ->first()
+                                                    ->images()
+                                                    ->count();
 
         // number of inserted images after update.
         $imagesCount = $imagesCountAfterUpdate - $imagesCountBeforeUpadate;
 
-        return [$profileId, $imagesCount, $profileId];
+        return [$name, $imagesCount, $name];
+    }
+
+    /**
+     * Get and decode url contents.
+     *
+     * @since  1.0.0
+     * @param  string  $url
+     * @return JSON
+     */
+    private function getContentsOf($url)
+    {
+        return json_decode(file_get_contents($url), true);
+    }
+
+    /**
+     * Iterate json data.
+     * 
+     * @todo combine store method
+     * @since  1.0.0
+     * @param  array  $response
+     */
+    private function getData($response, $lastImageID, $profileID, $updating) 
+    {
+        $category = Category::first()->id;
+        $data = [];
+        foreach ($response['items'] as $resData) {
+            /**
+             * If last image id met break update proccess and 
+             * set updating to false in order to jump next
+             * page proccessing.
+             */
+            if ($lastImageID == $resData['id']) {
+                $updating = false;
+                break;
+            }
+
+            // Create unique image name
+            $imageName               = round(microtime(true) * 1000);
+            $imageStandardResolution = $imageName . '.jpg';
+            $imageThumbnail          = $imageName . 'thumbnail.jpg';
+
+            /**
+             * To initialize created_at and updated_at in bulk
+             * insertion created_at and updated_at 
+             * not working out of the box.
+             * 
+             * @var DateTime
+             */
+            $now = Carbon::now();
+            
+            $image['updated_at']    = $now;
+            $image['created_at']    = $now;
+            $image['profile_id']    = $profileID;
+            $image['image_id']      = $resData['id'];
+            $this->imageID          = $resData['id'];
+            $image['link']          = $resData['link'];
+            $image['caption_text']  = $resData['caption']['text'];
+            $image['category_id']   = $category;
+
+            // store thumbnail on cloud
+            $thumbURL = $resData['images']['low_resolution']['url'];
+            $thumbURL = file_get_contents($thumbURL);
+            Storage::put($imageThumbnail, $thumbURL);
+            $image['thumb']         = $imageThumbnail;
+
+            // store standard image on cloud
+            $fullURL = $resData['images']['standard_resolution']['url'];
+            $fullURL = file_get_contents($fullURL);
+            Storage::put($imageStandardResolution, $fullURL);
+            $image['full']          = $imageStandardResolution;
+            
+            $created_time = $resData['caption']['created_time'];
+            $created_time = Carbon::createFromTimestamp($created_time);
+            $image['created_time']  = $created_time;
+
+            // add current image to buck insertion array
+            $data[] = $image;
+        }
+        return $data;
     }
 }
