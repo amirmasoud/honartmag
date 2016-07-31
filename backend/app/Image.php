@@ -88,7 +88,7 @@ class Image extends Model
 			return $query->where('id', '<', $id)
 						 ->Where('state', '=', $state)
 						 ->where('category_id', '=', $cat_ID)
-						 ->orderBy('id', 'asc')
+						 ->orderBy('id', 'desc')
 						 ->first(['id']);
 		}
 	}
