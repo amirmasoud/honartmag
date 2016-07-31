@@ -9,7 +9,14 @@
         </span>
         <div class="col-xs-10">
             <p class="caption-text" ng-bind-html="singular.caption_text | unsafe"></p>
-            <p><a href="{{ singular.link }}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> منبع</a></p>
+            <div class="row">
+                <div class="col-xs-6 text-center">
+                    <p><a href="{{ singular.link }}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> منبع</a></p>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <p><a href="{{ singular.full }}" target="_blank"><i class="fa fa-search-plus" aria-hidden="true"></i> بزرگنمایی</a></p>
+                </div>
+            </div>
         </div>
         <span class="prev-image" ng-class="{disabled: !singular.next}" ng-click="openImage(singular.prev, 'Prev')">
             <div class="col-xs-1 margin-top-10">

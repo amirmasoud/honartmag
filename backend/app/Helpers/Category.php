@@ -21,6 +21,7 @@ class Category implements CategoryContract
                             ->firstOrFail()
                             ->images()
                             ->select(['id', 'thumb'])
+                            ->where('state', 'show')
                             ->orderBy('id', 'desc')
                             ->simplePaginate(config('honart.paginate'));
 
@@ -46,8 +47,9 @@ class Category implements CategoryContract
                             ->firstOrFail()
                             ->images()
                             ->select(['id', 'full', 'caption_text', 'link', 'created_time'])
-                            ->orderBy('id', 'desc')
                             ->where('id', $id)
+                            ->where('state', 'show')
+                            ->orderBy('id', 'desc')
                             ->firstOrFail();
 
         $nextId = ImageModel::NextId($image->id, $name);
