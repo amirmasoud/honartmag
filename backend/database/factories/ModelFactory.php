@@ -30,6 +30,8 @@ $factory->define(App\Image::class, function (Faker\Generator $faker) {
         'thumb' => $faker->imageUrl($width = 150, $height = 150),
         'full' => $faker->imageUrl($width = 640, $height = 640),
         'caption_text' => $faker->realText($maxNbChars = 100),
+        'title' => $faker->realText($maxNbChars = 255),
+        'alt' => $faker->realText($maxNbChars = 500),
         'created_time' => $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
         'image_id' => '1111111111111111111_1111111111',
         'profile_id' => '1',
