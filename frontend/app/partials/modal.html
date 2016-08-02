@@ -1,5 +1,5 @@
 <div class="close-modal"><span class="fa fa-times" ng-click="close()"></span></div>
-<img class="img-responsive standard-resolution" alt="" ng-src="{{ singular.full }}">
+<img class="img-responsive standard-resolution" alt="{{ singular.alt }}" ng-src="{{ singular.full }}">
 <div class="modal-footer">
     <div class="row">
         <span class="next-image" ng-class="{disabled: !singular.prev}" ng-click="openImage(singular.prev, 'Next')">
