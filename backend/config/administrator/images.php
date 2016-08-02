@@ -37,6 +37,15 @@ return array(
 		    'title' => 'Caption Text',
 		    'type' 	=> 'textarea',
 		),
+		'title' => array(
+			'title' => 'Title',
+			'type' 	=> 'text',
+			'limit' => 255,
+		),
+		'alt' => array(
+			'title' => 'Alt',
+			'type' 	=> 'textarea',
+		),
 		'state' => array(
 		    'type' => 'enum',
 		    'title' => 'State',
@@ -46,16 +55,16 @@ return array(
 		        'show' 	=> 'Show',
 		    ),
 		),
+		'category' => array(
+		    'type' => 'relationship',
+		    'title' => 'Category',
+		    'name_field' => 'name',
+		),
 		'link' => array(
 			'title' => 'Link',
 			'type' 	=> 'text',
 			'limit' => 255,
 		),
-		'category' => array(
-		    'type' => 'relationship',
-		    'title' => 'Category',
-		    'name_field' => 'name',
-		)
 	),
 
 	/**
