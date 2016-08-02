@@ -46,7 +46,7 @@ class Category implements CategoryContract
         $image =  CategoryModel::where('name', $name)
                             ->firstOrFail()
                             ->images()
-                            ->select(['id', 'full', 'caption_text', 'link', 'created_time'])
+                            ->select(['id', 'full', 'caption_text', 'link', 'created_time', 'title', 'alt'])
                             ->where('id', $id)
                             ->where('state', 'show')
                             ->orderBy('id', 'desc')

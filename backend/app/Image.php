@@ -21,6 +21,8 @@ class Image extends Model
 		'image_id',
 		'created_time',
 		'state',
+        'title',
+        'alt',
 	];
 
 	/**
