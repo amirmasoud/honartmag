@@ -13,8 +13,8 @@ class AddAltAndTitleToImagesTable extends Migration
     public function up()
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->string('title');
-            $table->text('alt');
+            $table->string('title')->default('');
+            $table->text('alt')->default('');
         });
     }
 
