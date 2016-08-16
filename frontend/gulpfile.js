@@ -86,6 +86,11 @@ gulp.task('templates', ['uib'], function() {
     .pipe(gulp.dest('dist/partials'));
 })
 
+gulp.task('components', function() {
+  return gulp.src('app/components/**/*.html')
+    .pipe(gulp.dest('dist/components'));
+})
+
 // Cleaning 
 gulp.task('clean:dist', function() {
   return del.sync(['dist/**/*', '!dist/assets/img', '!dist/assets/img/**/*']);
@@ -103,7 +108,7 @@ gulp.task('default', function(callback) {
 gulp.task('build', function(callback) {
   runSequence(
     'clean:dist',
-    ['sass', 'useref', 'images', 'fonts', 'templates', 'apache'],
+    ['sass', 'useref', 'images', 'fonts', 'templates', 'components', 'apache'],
     callback
   )
 })
