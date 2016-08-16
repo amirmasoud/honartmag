@@ -1,5 +1,5 @@
 <div class="image-container">
-    <img class="img-responsive" ng-src="{{ image.thumb }}" alt="">
+    <img class="img-responsive" ng-src="{{ image.thumb }}" alt="{{ image.alt }}">
     <span class="category">{{ image.category.name }}</span>
 </div>
 <div class="loading-modal" ng-show="$parent.loadingModal">
