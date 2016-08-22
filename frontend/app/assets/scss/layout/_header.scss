@@ -1,0 +1,46 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+nav.navbar {
+  margin-bottom: 0;
+  border: 0;
+
+  nav.navbar-margin {
+    max-width: $max-width;
+    margin: 0 auto;
+    padding: $header-padding; 
+  }
+
+  a.logo {
+    @if $direction == 'rtl' {
+      float: right;
+      @include margin('right', 25px);
+    }
+  }
+}
+
+@media all and (max-width: $md-1) {
+  nav.navbar a.logo {
+    width: 163px;
+    margin: 0 auto;
+    display: block;
+    float: none;
+  }
+
+  .navbar-nav {
+    margin: 20px 0 0 0;
+    display: block;
+    text-align: center;
+  }
+ .navbar-nav ul {
+       display: block;
+     text-align: center;}
+
+     .nav>li {
+          display: inline-block;
+     }
+
+     nav.navbar nav.navbar-margin {
+      padding-bottom: 0;
+     }
+}

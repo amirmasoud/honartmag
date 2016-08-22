@@ -1,0 +1,14 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the ad of the site/application.
+// -----------------------------------------------------------------------------
+.ad-container {
+  max-width: $ad-width;
+  max-height: $ad-height;
+  overflow: hidden;
+}
+
+.ad {
+  background-color: $light-grey;
+  @include padding('top', $ad-padding);
+  @include padding('bottom', $ad-padding);
+}
