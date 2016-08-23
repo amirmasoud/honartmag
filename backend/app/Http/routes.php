@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['prefix' => 'api'], function() {
+Route::group(['prefix' => 'api', 'middleware' => ['api']], function() {
     Route::get('/images', 'Api\ImagesController@all');
     Route::get('/images/{id}', 'Api\ImagesController@singular');
     Route::get('categories/{name}', 'Api\CategoriesController@all');
