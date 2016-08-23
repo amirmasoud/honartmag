@@ -2,18 +2,18 @@ angular
 	.module('app')
 	.controller('CategoryController', CategoryController);
 
-CategoryController.$inject = ['$scope', '$http', 'ImageService', '$uibModal', '$routeParams'];
-function CategoryController($scope, $http, ImageService, $uibModal, $routeParams) {
+CategoryController.$inject = ['$scope', '$http', 'ImageService', '$uibModal', '$stateParams'];
+function CategoryController($scope, $http, ImageService, $uibModal, $stateParams) {
 	var vm = this;
     $scope.images = [];
     $scope.loadMoreBtn = 'بیشتر';
     $scope.finished = false;
     $scope.loadingModal = false;
-    $scope.category = $routeParams.name;
+    $scope.category = $stateParams.name;
 
     var busy = false,
     	page = 1;
-    	category = $routeParams.name;
+    	category = $stateParams.name;
 
     function getImages() {
 		if (busy) return;
