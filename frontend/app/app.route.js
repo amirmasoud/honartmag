@@ -5,9 +5,10 @@ angular
   .module('app')
   .config(config);
 
-config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
-function config($stateProvider, $urlRouterProvider, $locationProvider) {
+config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', 'env'];
+function config($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, env) {
   $urlRouterProvider.otherwise("/404");
+  $authProvider.loginUrl = env.url + 'authenticate';
 
   $stateProvider
     .state('home', {
@@ -19,6 +20,11 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
       url: "/category/:name",
       templateUrl: "partials/index.html",
       controller: "CategoryController"
+    })
+    .state('auth', {
+        url: '/auth',
+        templateUrl: 'partials/login.html',
+        controller: 'AuthController'
     })
     .state('404', {
       url: "/404",
