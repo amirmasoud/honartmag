@@ -2,12 +2,12 @@ angular
 	.module('app')
 	.controller('ModalController', ModalController);
 
-ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular', '$routeParams'];
-function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular, $routeParams) {
+ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular', '$stateParams'];
+function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular, $stateParams) {
 	$scope.singular = singular;
 	$scope.loadingImageNext = false;
 	$scope.loadingImagePrev = false;
-	$scope.category = $routeParams.name;
+	$scope.category = $stateParams.name;
 
 	$scope.openImage = function(id, direction) {
 		if (id) {

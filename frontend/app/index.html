@@ -9,19 +9,18 @@
 
     <title>هنارت - مجله هنری</title>
 
-	<!--build:css css/styles.min.css-->
-  <link rel="stylesheet" href="vendor/animate.css/animate.min.css">
-  <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="vendor/Bootflat/css/bootstrap.min.css">
-  <link rel="stylesheet" href="vendor/angular-loading-bar/build/loading-bar.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-	<!--endbuild-->
+    <!--build:css css/styles.min.css-->
+    <link rel="stylesheet" href="vendor/animate.css/animate.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/Bootflat/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <!--endbuild-->
 
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
@@ -39,16 +38,16 @@
   </nav>
 
 	<div class="ad margin-bottom-25">
-		<div class="ad-container center-block">
-       		<script type="text/javascript" src="https://click.sabavision.com/get_camp.php?id=45396,45395"></script>
-       	</div>
+    <div class="ad-container center-block">
+      <script type="text/javascript" src="https://click.sabavision.com/get_camp.php?id=45396,45395"></script>
+    </div>
 	</div>
 
-	<!-- Page Content -->
-	<div class="container">
-	<div ng-view></div>
-    </div>
-    <!-- /.container -->
+  <!-- Page Content -->
+  <div class="container">
+    <div ui-view></div>
+  </div>
+  <!-- /.container -->
 
 	<!--build:js js/main.min.js -->
   <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -56,11 +55,12 @@
   <script src="vendor/Bootflat/bootflat/js/icheck.min.js"></script>
   <script src="vendor/Bootflat/bootflat/js/jquery.fs.selecter.min.js"></script>
   <script src="vendor/angular/angular.js"></script>
-  <script src="vendor/angular-route/angular-route.js"></script>
+  <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="vendor/angular-hotkeys/build/hotkeys.js"></script>
   <script src="vendor/angular-bootstrap/ui-bootstrap.js"></script>
   <script src="vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
   <script src="vendor/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="vendor/satellizer/dist/satellizer.min.js"></script>
   <script src="vendor/wow/dist/wow.js"></script>
   <script src="assets/js/wow.js"></script>
   <script src="assets/js/google-analystics.js"></script>
@@ -72,9 +72,9 @@
 	<script src="services/image.service.js"></script>
 	<script src="image/image.controller.js"></script>
 	<script src="image/modal.controller.js"></script>
-	<script src="image/category.controller.js"></script>
+  <script src="image/category.controller.js"></script>
+	<script src="auth/auth.controller.js"></script>
 	<!-- endbuild -->
-
 </body>
 
 </html>
