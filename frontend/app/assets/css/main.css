@@ -2,7 +2,8 @@
  * Set up a decent box model on the root element
  */
 html {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
@@ -11,16 +12,19 @@ html {
  * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
  */
 *, *::before, *::after {
-  box-sizing: inherit; }
+  box-sizing: inherit;
+}
 
 /**
  * Basic styles for links
  */
 a {
-  text-decoration: none; }
-  a:hover, a:active, a:focus {
-    color: #222222;
-    text-decoration: none; }
+  text-decoration: none;
+}
+a:hover, a:active, a:focus {
+  color: #222222;
+  text-decoration: none;
+}
 
 /**
  * Change floating on RTL direction
@@ -29,8 +33,8 @@ a {
   font-family: "IranSansZ";
   src: url("../fonts/IranSansZ.eot") format("embedded-opentype"), url("../fonts/IranSansZ.woff") format("woff"), url("../fonts/IranSansZ.svg") format("truetype"), url("../fonts/IranSansZ.svg") format("svg");
   font-weight: normal;
-  font-style: normal; }
-
+  font-style: normal;
+}
 /**
  * Basic typography style for copy text
  */
@@ -41,7 +45,8 @@ body {
   min-width: 492px;
   background-color: #f1f1f1;
   background-size: contain;
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 /**
  * Clear inner floats
@@ -49,7 +54,8 @@ body {
 .clearfix::after {
   clear: both;
   content: '';
-  display: table; }
+  display: table;
+}
 
 /**
  * Main content containers
@@ -69,7 +75,8 @@ body {
   padding-right: 20px;
   /* 3 */
   width: 100%;
-  /* 1 */ }
+  /* 1 */
+}
 
 /**
  * Hide text while making it readable for screen readers
@@ -81,7 +88,8 @@ body {
   padding: 0;
   /* 1 */
   text-indent: 101%;
-  white-space: nowrap; }
+  white-space: nowrap;
+}
 
 /**
  * Hide element while making it readable for screen readers
@@ -96,144 +104,198 @@ body {
   overflow: hidden;
   padding: 0;
   position: absolute;
-  width: 1px; }
+  width: 1px;
+}
 
 /**
  * Styling helper margins
  */
 .margin-top-10 {
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .margin-top-15 {
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .margin-bottom-25 {
-  margin-bottom: 25px; }
+  margin-bottom: 25px;
+}
 
 .margin-bottom-30 {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+}
 
 .ad-container {
   max-width: 728px;
   max-height: 90px;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .ad {
   background-color: #ededed;
   padding-top: 10px;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+}
 
 nav.navbar {
   margin-bottom: 0;
-  border: 0; }
-  nav.navbar nav.navbar-margin {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 15px; }
-  nav.navbar a.logo {
-    float: right;
-    margin-right: 25px; }
+  border: 0;
+}
+nav.navbar nav.navbar-margin {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 15px;
+}
+nav.navbar a.logo {
+  float: right;
+  margin-right: 25px;
+}
 
 @media all and (max-width: 767px) {
   nav.navbar a.logo {
     width: 163px;
     margin: 0 auto;
     display: block;
-    float: none; }
+    float: none;
+  }
+
   .navbar-nav {
     margin: 20px 0 0 0;
     display: block;
-    text-align: center; }
+    text-align: center;
+  }
+
   .navbar-nav ul {
     display: block;
-    text-align: center; }
+    text-align: center;
+  }
+
   .nav > li {
-    display: inline-block; }
+    display: inline-block;
+  }
+
   nav.navbar nav.navbar-margin {
-    padding-bottom: 0; } }
-
+    padding-bottom: 0;
+  }
+}
 .portfolio-item > span {
-  cursor: pointer; }
-
+  cursor: pointer;
+}
 .portfolio-item img {
   cursor: pointer;
-  background-color: #ededed; }
+  background-color: #ededed;
+}
 
 .portfolio-item {
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+}
 
 @media all and (max-width: 767px) {
   .portfolio {
     width: 320px;
-    margin: 0 auto; }
+    margin: 0 auto;
+  }
+
   .portfolio-item img {
     width: 290px;
-    height: 290px; }
+    height: 290px;
+  }
+
   .loading-modal {
-    padding: 37%; }
+    padding: 37%;
+  }
+
   .modal-content img {
     min-width: 395px;
     max-width: 638px;
     height: auto;
     min-height: 395px;
-    max-height: 638px; } }
-
+    max-height: 638px;
+  }
+}
 @media all and (min-width: 768px) and (max-width: 991px) {
   .portfolio {
     width: 640px;
-    margin: 0 auto; } }
-
+    margin: 0 auto;
+  }
+}
 @media (min-width: 768px) {
   .loading-modal {
-    padding: 37%; }
+    padding: 37%;
+  }
+
   .portfolio-item img {
     width: 290px;
-    height: 290px; }
+    height: 290px;
+  }
+
   .modal-dialog {
-    width: 640px; }
+    width: 640px;
+  }
+
   .modal, .modal-open {
-    padding-right: 0 !important; }
+    padding-right: 0 !important;
+  }
+
   .modal-content img {
     width: 638px;
-    height: 638px; } }
-
+    height: 638px;
+  }
+}
 @media (min-width: 992px) {
   .loading-modal {
-    padding: 31%; }
+    padding: 31%;
+  }
+
   .modal-custom .modal-content {
-    width: 642px; }
+    width: 642px;
+  }
+
   .modal, .modal-open {
-    padding-right: 0 !important; }
+    padding-right: 0 !important;
+  }
+
   .portfolio-item img {
     width: 212.5px;
-    height: 212.5px; }
+    height: 212.5px;
+  }
+
   .modal-content img {
     width: 642px;
-    height: 642px; } }
-
+    height: 642px;
+  }
+}
 @media (min-width: 1200px) {
   .loading-modal {
-    padding: 35%; }
+    padding: 35%;
+  }
+
   .portfolio-item img {
     width: 262.5px;
-    height: 262.5px; }
+    height: 262.5px;
+  }
+
   .modal-content img {
     width: 640px;
-    height: 640px; } }
-
+    height: 640px;
+  }
+}
 .image-container {
   position: relative;
-  margin-bottom: -20px; }
-  .image-container .category {
-    position: absolute;
-    bottom: 20px;
-    right: 0;
-    left: 0;
-    color: #ffffff;
-    text-align: right;
-    text-shadow: 1px 1px 1px #000;
-    border-right: 5px dashed #ededed;
-    padding: 0px 10px; }
+  margin-bottom: -20px;
+}
+.image-container .category {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  left: 0;
+  color: #ffffff;
+  text-align: right;
+  text-shadow: 1px 1px 1px #000;
+  border-right: 5px dashed #ededed;
+  padding: 0px 10px;
+}
 
 .modal-custom, .modal-dialog {
   min-width: 397px;
@@ -242,34 +304,42 @@ nav.navbar {
   margin-left: auto;
   margin-top: 75px;
   margin-bottom: 75px;
-  max-height: 100%; }
+  max-height: 100%;
+}
 
 .modal-footer {
-  min-height: 66px; }
+  min-height: 66px;
+}
 
 .next-image, .prev-image {
   cursor: pointer;
-  color: #29D; }
-  .next-image:hover, .next-image:active, .next-image:focus, .prev-image:hover, .prev-image:active, .prev-image:focus {
-    color: #222222;
-    text-decoration: none; }
-  .next-image:hover, .next-image:focus, .prev-image:hover, .prev-image:focus {
-    color: #3FB9FF; }
+  color: #29D;
+}
+.next-image:hover, .next-image:active, .next-image:focus, .prev-image:hover, .prev-image:active, .prev-image:focus {
+  color: #222222;
+  text-decoration: none;
+}
+.next-image:hover, .next-image:focus, .prev-image:hover, .prev-image:focus {
+  color: #3FB9FF;
+}
 
 span.disabled .next-image:hover, span.disabled .next-image:focus,
 span.disabled .prev-image:hover,
 span.disabled .prev-image:focus {
   cursor: not-allowed;
-  color: #ededed !important; }
+  color: #ededed !important;
+}
 
 .modal-content img {
   width: 100%;
   height: auto;
   cursor: pointer;
-  background-color: #ededed; }
+  background-color: #ededed;
+}
 
 .caption-text {
-  margin-top: 7px; }
+  margin-top: 7px;
+}
 
 .close-modal span {
   position: absolute;
@@ -280,7 +350,8 @@ span.disabled .prev-image:focus {
   -webkit-transition: all 0.3s ease initial;
   -moz-transition: all 0.3s ease initial;
   -o-transition: all 0.3s ease initial;
-  transition: all 0.3s ease initial; }
+  transition: all 0.3s ease initial;
+}
 
 .close-modal span:hover,
 .close-modal span:focus {
@@ -288,7 +359,8 @@ span.disabled .prev-image:focus {
   -webkit-transition: all 0.3s ease initial;
   -moz-transition: all 0.3s ease initial;
   -o-transition: all 0.3s ease initial;
-  transition: all 0.3s ease initial; }
+  transition: all 0.3s ease initial;
+}
 
 .loading-modal {
   position: absolute;
@@ -301,18 +373,30 @@ span.disabled .prev-image:focus {
   color: #fff;
   text-align: center;
   padding: 35%;
-  font-size: 60px; }
+  font-size: 60px;
+}
 
 .close-modal-backdrop {
   position: absolute;
   top: -1800px;
   right: -1800px;
   left: -1800px;
-  bottom: -15px; }
+  bottom: -15px;
+}
 
 .page {
   background-color: rgba(255, 255, 255, 0.95);
-  padding: 50px 15px; }
+  padding: 50px 15px;
+}
 
 footer {
-  margin: 50px 0; }
+  margin: 50px 0;
+}
+
+div.help-block .list-unstyled {
+  padding-right: 0;
+}
+
+div.with-errors .list-unstyled {
+  padding-right: 0;
+}

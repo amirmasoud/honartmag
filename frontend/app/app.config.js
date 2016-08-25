@@ -21,4 +21,3 @@ function unsafe($sce) {
 angular
 	.module('infinite-scroll')
 	.value('THROTTLE_MILLISECONDS', 250);
-
