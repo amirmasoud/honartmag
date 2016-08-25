@@ -23,7 +23,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $authProv
     })
     .state('auth', {
         url: '/auth',
-        templateUrl: 'partials/login.html',
+        templateUrl: 'partials/auth/login.html',
         controller: 'AuthController'
     })
     .state('404', {

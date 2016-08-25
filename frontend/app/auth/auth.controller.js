@@ -14,8 +14,7 @@ function AuthController($auth, $state, $scope, $rootScope) {
     if (isValid){
       $auth.login(user)
         .then(function(response) {
-          //console.log(response);
-          // Redirect user here after a successful log in.
+          $state.go('home');
         })
         .catch(function(response) {
           $rootScope.authFail = true;
