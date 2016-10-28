@@ -23,8 +23,18 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $authProv
     })
     .state('auth', {
         url: '/auth',
-        templateUrl: 'partials/login.html',
+        templateUrl: 'partials/auth/login.html',
         controller: 'AuthController'
+    })
+    .state('images', {
+        url: '/images/:id',
+        templateUrl: 'partials/auth/login.html',
+        controller: 'ImageController'
+    })
+    .state('admin', {
+        url: '/admin/instagramProfiles',
+        templateUrl: 'partials/instagramProfiles/index.html',
+        controller: 'instagramProfilesController'
     })
     .state('404', {
       url: "/404",

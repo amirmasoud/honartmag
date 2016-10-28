@@ -2,8 +2,8 @@ angular
 	.module('app')
 	.controller('ModalController', ModalController);
 
-ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular', '$stateParams'];
-function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular, $stateParams) {
+ModalController.$inject = ['$scope', 'ImageService', 'hotkeys', '$uibModalInstance', 'singular', '$stateParams', '$state'];
+function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singular, $stateParams, $state) {
 	$scope.singular = singular;
 	$scope.loadingImageNext = false;
 	$scope.loadingImagePrev = false;
@@ -11,6 +11,7 @@ function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singu
 
 	$scope.openImage = function(id, direction) {
 		if (id) {
+			$state.go('images', {id: id}, {notify: false});
 			if (typeof direction !== 'undefined')
 				$scope['loadingImage' + direction] = true;
 			if (typeof $scope.category !== 'undefined') {
@@ -33,6 +34,7 @@ function ModalController($scope, ImageService, hotkeys, $uibModalInstance, singu
 
 	$scope.close = function () {
 		$uibModalInstance.dismiss();
+		$state.go('images', {id: $scope.singular.next}, {notify: false});
 	};
 
 	hotkeys.add({

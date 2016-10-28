@@ -2,8 +2,8 @@ angular
 	.module('app')
 	.controller('ImageController', ImageController);
 
-ImageController.$inject = ['$scope', '$http', 'ImageService', '$uibModal'];
-function ImageController($scope, $http, ImageService, $uibModal) {
+ImageController.$inject = ['$scope', '$http', 'ImageService', '$uibModal', '$state'];
+function ImageController($scope, $http, ImageService, $uibModal, $state) {
 	var vm = this;
     $scope.images = [];
     $scope.loadMoreBtn = 'بیشتر';
@@ -54,6 +54,7 @@ function ImageController($scope, $http, ImageService, $uibModal) {
 				singular: function () {
 					return ImageService.singular(id)
 						.then(function(result) {
+							$state.go('images', {id: id}, {notify: false});
 							self.loadingModal = false;
 							return result['data'];
 						});

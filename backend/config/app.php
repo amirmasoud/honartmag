@@ -147,6 +147,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -163,7 +164,7 @@ return [
         App\Providers\InstagramServiceProvider::class,
         App\Providers\CategoryServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Frozennode\Administrator\AdministratorServiceProvider::class,
+        //Frozennode\Administrator\AdministratorServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
@@ -212,6 +213,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
     ],
 
 ];

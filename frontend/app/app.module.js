@@ -4,5 +4,6 @@ angular
 		'cfp.hotkeys',
 		'ui.bootstrap',
 		'angular-loading-bar',
-    'satellizer'
+    'satellizer',
+    'ngMessages'
 	]);

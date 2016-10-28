@@ -316,3 +316,9 @@ span.disabled .prev-image:focus {
 
 footer {
   margin: 50px 0; }
+
+div.help-block .list-unstyled {
+  padding-right: 0; }
+
+div.with-errors .list-unstyled {
+  padding-right: 0; }

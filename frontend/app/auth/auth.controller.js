@@ -2,23 +2,25 @@ angular
 	.module('app')
 	.controller('AuthController', AuthController);
 
-AuthController.$inject = ['$auth', '$state', '$scope'];
-function AuthController($auth, $state, $scope) {
-  var vm = this;
-      
-  $scope.login = function() {
+AuthController.$inject = ['$auth', '$state', '$scope', '$rootScope'];
+function AuthController($auth, $state, $scope, $rootScope) {   
+  $rootScope.authFail = false;
+  $scope.auth = function(isValid) {
+    var user = {
+      email: $scope.auth.email,
+      password: $scope.auth.password
+    };
 
-    var credentials = {
-      email: vm.email,
-      password: vm.password
+    if (isValid){
+      $auth.login(user)
+        .then(function(response) {
+          $state.go('home');
+        })
+        .catch(function(response) {
+          $rootScope.authFail = true;
+          $rootScope.authMessage = 'ایمیل یا پسورد اشتباه وارد شده است.';
+        });
     }
-    
-    // Use Satellizer's $auth service to login
-    $auth.login(credentials).then(function(data) {
-
-      // If login is successful, redirect to the users state
-      $state.go('users', {});
-    });
   }
 
 }

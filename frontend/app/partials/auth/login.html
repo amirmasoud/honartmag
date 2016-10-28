@@ -1,9 +1,9 @@
-<div class="col-sm-4 col-sm-offset-4">
+<div class="col-sm-6 col-sm-offset-3">
     <div class="well">
     <h3 class="text-center">ورود</h3>
         <alert type="warning" title="خطا!" message="ایمیل یا پسورد اشتباه وارد شده است." show="authFail"></alert>
         <form ng-controller="AuthController" name="login" ng-submit="auth(login.$valid)" novalidate>
-<!--             <div class="form-group"
+            <div class="form-group"
                  ng-class="{ 'has-error has-feedback': login.email.$touched && login.email.$invalid ,
                              'has-success has-feedback': login.email.$touched && login.email.$valid }">
                 <input type="email" name="email" class="form-control" 
@@ -18,23 +18,7 @@
                 <span class="help-block with-errors" ng-messages="login.email.$error" ng-show="login.email.$touched">
                     <p ng-messages-include="partials/messages.html"></p>
                 </span>
-            </div> -->
-<!--             <email form="login"
-                   name="email"
-                   placeholder="email"
-                   model="auth.email"
-                   ng-minlength="6"
-                   ng-maxlength="255"
-                   required="required"
-                   ></email> -->
-            <div ng-include="'partials/forms/input.html'" ng-repeat="pass in [{
-               'placeholder': 'ایمیل',
-               'dir': 'ltr',
-               'model': 'auth.email',
-               'minlength':'6',
-               'maxlength':'255',
-               'required': 'required'
-            }]"></div>
+            </div>
             <div class="form-group"
                  ng-class="{ 'has-error has-feedback': login.password.$touched && login.password.$invalid ,
                              'has-success has-feedback': login.password.$touched && login.password.$valid }">
